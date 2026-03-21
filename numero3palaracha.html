@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Lista de Tareas</title>
+     <a href="index.html">contador</a>
+    <a href="numero2.html">Contador modificado</a>
+    <a href="numero3palaracha.html">Lista de tareas</a>
+    <a href="numero4bacanamente.html">Cuestionario rapido</a>
+    <a href="numero5.html">Registro a un gimnasio</a>
+    <style>
+        /* Alineamos todo a la izquierda */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; 
+            padding: 20px;
+            font-family: sans-serif;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            text-align: left;
+            width: 100%;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>To-Do List</h2>
+
+    <div>
+        <input id="task" placeholder="Nueva tarea">
+        <button onclick="addTask()">Add</button>
+    </div>
+    
+    <ul id="list"></ul>
+    
+    <button onclick="clearAll()">Clear All</button>
+
+    <script>
+        // Intentamos cargar las tareas guardadas al iniciar, o empezamos con un array vacío
+        let tasks = JSON.parse(localStorage.getItem("misTareas")) || [];
+        
+        // Dibujamos las tareas que ya existían al cargar la página
+        renderTasks();
+
+        function addTask() {
+            const input = document.getElementById("task");
+            const value = input.value.trim();
+
+            if (value !== "") {
+                tasks.push(value); // Agregamos al array
+                saveAndRender();   // Guardamos y actualizamos la pantalla
+                input.value = "";  // Limpiamos el cuadro
+            }
+        }
+
+        function renderTasks() {
+            const listElement = document.getElementById("list");
+            listElement.innerHTML = ""; // Limpiamos la lista visual
+
+            tasks.forEach((task) => {
+                const li = document.createElement("li");
+                li.textContent = task;
+                listElement.appendChild(li); // Se agregan uno tras otro (de arriba a abajo)
+            });
+        }
+
+        function saveAndRender() {
+            // Guardamos el array en el almacenamiento del navegador (LocalStorage)
+            localStorage.setItem("misTareas", JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        function clearAll() {
+            if (confirm("¿Seguro que quieres borrar todo?")) {
+                tasks = [];
+                saveAndRender();
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <a href="index.html">contador</a>
+    <a href="numero2.html">Contador modificado</a>
+    <a href="numero3palaracha.html">Lista de tareas</a>
+    <a href="numero4bacanamente.html">Cuestionario rapido</a>
+    <a href="numero5.html">Registro a un gimnasio</a>
+<style>
+/* Tu CSS original */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-overlay.show {
+  display: block;
+}
+
+.modal-box {
+  background: white;
+  width: 90%;
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* Estilo extra suave para los botones de respuesta */
+.option-btn {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.option-btn:hover {
+  background: #e9e9e9;
+}
+</style>
+</head>
+<body>
+
+<h2>Cuestionario Rápido</h2>
+
+<button id="openBtn">Responder una pregunta</button>
+
+<div id="modal" class="modal-overlay">
+  <div class="modal-box">
+    <button id="closeBtn" class="modal-close">&times;</button>
+    <h3 id="questionTitle">Cargando...</h3>
+    <div id="optionsContainer">
+      </div>
+  </div>
+</div>
+
+<script>
+// Configuración de preguntas
+const bancoPreguntas = [
+  {
+    q: "¿Cuál es el planeta más grande del sistema solar?",
+    options: ["Marte", "Júpiter", "Saturno"],
+    correct: 1
+  },
+  {
+    q: "¿En qué año llegó el hombre a la Luna?",
+    options: ["1969", "1955", "1974"],
+    correct: 0
+  },
+  {
+    q: "¿Qué gas respiramos principalmente?",
+    options: ["Oxígeno", "Nitrógeno", "Dióxido de Carbono"],
+    correct: 1
+  }
+];
+
+const modal = document.getElementById('modal');
+const openBtn = document.getElementById('openBtn');
+const closeBtn = document.getElementById('closeBtn');
+const questionTitle = document.getElementById('questionTitle');
+const optionsContainer = document.getElementById('optionsContainer');
+
+// Función para cargar una pregunta aleatoria
+function cargarPregunta() {
+  const randomIdx = Math.floor(Math.random() * bancoPreguntas.length);
+  const data = bancoPreguntas[randomIdx];
+  
+  questionTitle.innerText = data.q;
+  optionsContainer.innerHTML = ''; // Limpiar opciones anteriores
+
+  data.options.forEach((opt, index) => {
+    const btn = document.createElement('button');
+    btn.innerText = opt;
+    btn.className = 'option-btn';
+    btn.onclick = () => {
+      if(index === data.correct) {
+        alert("Po tu sabe");
+      } else {
+        alert("!HORRIBLEEEEEE!");
+      }
+      modal.classList.remove('show');
+    };
+    optionsContainer.appendChild(btn);
+  });
+}
+
+// Eventos de apertura y cierre
+openBtn.onclick = () => {
+  cargarPregunta();
+  modal.classList.add('show');
+};
+
+closeBtn.onclick = () => {
+  modal.classList.remove('show');
+};
+
+// Cerrar al hacer clic fuera del cuadro blanco
+window.onclick = (event) => {
+  if (event.target === modal) {
+    modal.classList.remove('show');
+  }
+};
+</script>
+
+</body>
+</html>

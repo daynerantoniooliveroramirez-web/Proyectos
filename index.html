@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contador</title>
+    <a href="index.html">contador</a>
+    <a href="numero2.html">Contador modificado</a>
+    <a href="numero3palaracha.html">Lista de tareas</a>
+    <a href="numero4bacanamente.html">Cuestionario rapido</a>
+    <a href="numero5.html">Registro a un gimnasio</a>
+</head>
+<body>
+
+    <h1>Mi Contador Interactivo</h1>
+    
+    <div style="font-size: 50px; font-weight: bold;" id="display">0</div>
+
+    <br>
+
+    <button onclick="operar(1)">Sumar (+1)</button>
+    <button onclick="operar(-1)">Restar (-1)</button>
+    
+    <br><br>
+
+    <button onclick="guardar()">Guardar</button>
+    <button onclick="cargar()">Volver</button>
+    <button onclick="resetear()">Resetear</button>
+
+    <br><br>
+
+    <label>Escribe PI o MAGIC aquí:</label><br>
+    <input type="text" id="input-secreto" autocomplete="off">
+
+    <div id="seccion-pi" style="display: none;">
+        <h3>7 Aproximaciones de Pi:</h3>
+        <ul>
+            <li>22 / 7</li>
+            <li>333 / 106</li>
+            <li>355 / 113</li>
+            <li>103,993 / 33,102</li>
+            <li>104,348 / 33,215</li>
+            <li>208,341 / 66,317</li>
+            <li>312,689 / 99,532</li>
+        </ul>
+    </div>
+
+    <script>
+        let cuenta = 0;
+        const display = document.getElementById('display');
+        const inputSecreto = document.getElementById('input-secreto');
+        const seccionPi = document.getElementById('seccion-pi');
+
+        // --- LÓGICA DEL CONTADOR ---
+        function operar(valor) {
+            cuenta += valor;
+            actualizarPantalla();
+        }
+
+        function actualizarPantalla() {
+            display.innerText = cuenta;
+        }
+
+        function resetear() {
+            cuenta = 0;
+            actualizarPantalla();
+            seccionPi.style.display = 'none';
+            document.body.style.backgroundColor = "white";
+            inputSecreto.value = "";
+        }
+
+        // --- LÓGICA DE GUARDAR Y CARGAR (LocalStorage) ---
+        function guardar() {
+            localStorage.setItem('conteoGuardado', cuenta);
+            alert("Valor " + cuenta + " guardado en el navegador.");
+        }
+
+        function cargar() {
+            const dato = localStorage.getItem('conteoGuardado');
+            if (dato !== null) {
+                cuenta = parseFloat(dato);
+                actualizarPantalla();
+                alert("Valor cargado con éxito.");
+            } else {
+                alert("No hay nada guardado todavía.");
+            }
+        }
+
+        // --- DETECTOR DE PALABRAS MÁGICAS ---
+        inputSecreto.addEventListener('input', (e) => {
+            const palabra = e.target.value.toLowerCase();
+
+            if (palabra.includes('pi')) {
+                activarPi();
+                e.target.value = ''; // Limpia el cuadro
+            }
+
+            if (palabra.includes('magic')) {
+                activarMagic();
+                e.target.value = ''; // Limpia el cuadro
+            }
+        });
+
+        function activarPi() {
+            seccionPi.style.display = 'block';
+            let n = 0;
+            const piReal = Math.PI;
+            
+            // Animación del contador hasta llegar a Pi
+            const animar = () => {
+                n += (piReal - n) * 0.1;
+                display.innerText = n.toFixed(15);
+                
+                if (Math.abs(piReal - n) > 0.00000000001) {
+                    requestAnimationFrame(animar);
+                } else {
+                    display.innerText = piReal.toFixed(15);
+                    cuenta = piReal; 
+                }
+            };
+            animar();
+        }
+
+        function activarMagic() {
+            alert("¡MODO MAGIC ACTIVADO!");
+            // Cambia colores de fondo solo con JS
+            let pasos = 0;
+            const intervalo = setInterval(() => {
+                const colores = ['#ffcccc', '#ccffcc', '#ccccff', '#ffffcc', '#ffccff'];
+                document.body.style.backgroundColor = colores[pasos % colores.length];
+                pasos++;
+                if (pasos > 15) {
+                    clearInterval(intervalo);
+                    document.body.style.backgroundColor = "#e0e0e0";
+                }
+            }, 200);
+        }
+    </script>
+</body>
+</html>

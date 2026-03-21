@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro Gymshark</title>
+ <a href="index.html">contador</a>
+    <a href="numero2.html">Contador modificado</a>
+    <a href="numero3palaracha.html">Lista de tareas</a>
+    <a href="numero4bacanamente.html">Cuestionario rapido</a>
+    <a href="numero5.html">Registro a un gimnasio</a>
+<style>
+  /* Tu CSS original */
+  input {
+    padding: 8px;
+    width: 260px;
+    margin-bottom: 4px;
+  }
+  .error {
+    color: red;
+    margin: 0;
+  }
+  .ok {
+    color: green;
+    margin: 0;
+  }
+  .field {
+    margin-bottom: 12px;
+  }
+</style>
+</head>
+<body>
+
+<form id="signupForm">
+  <div class="field">
+    <label>Name:</label><br>
+    <input id="name" type="text" placeholder="Your name">
+    <p id="nameError" class="error"></p>
+  </div>
+
+  <div class="field">
+    <label>Email:</label><br>
+    <input id="email" type="email" placeholder="Email">
+    <p id="emailError" class="error"></p>
+  </div>
+
+  <div class="field">
+    <label>Password:</label><br>
+    <input id="password" type="password" placeholder="Password">
+    <p id="passwordError" class="error"></p>
+  </div>
+
+  <div class="field">
+    <label>Confirm Password:</label><br>
+    <input id="confirm" type="password" placeholder="Confirm Password">
+    <p id="confirmError" class="error"></p>
+  </div>
+
+  <button type="submit">Join the team</button>
+  
+  <p id="result"></p>
+</form>
+
+<script>
+// 1. Selección de elementos (Tus variables)
+const form = document.getElementById("signupForm");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const passInput = document.getElementById("password");
+const confirmInput = document.getElementById("confirm");
+
+const nameError = document.getElementById("nameError");
+const emailError = document.getElementById("emailError");
+const passError = document.getElementById("passwordError");
+const confirmError = document.getElementById("confirmError");
+const result = document.getElementById("result");
+
+// 2. Tus funciones de ayuda
+function showError(el, message) {
+  el.innerHTML = message;
+}
+
+function clearError(el) {
+  el.innerHTML = "";
+}
+
+// 3. Función de validación principal
+function validateForm() {
+  let isAllValid = true;
+
+  // Validar Nombre
+  if (nameInput.value.trim() === "") {
+    showError(nameError, "Rellena bien el nombre, bro.");
+    isAllValid = false;
+  } else {
+    clearError(nameError);
+  }
+
+  // Validar Email (Regex básica)
+  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  if (!emailInput.value.match(emailPattern)) {
+    showError(emailError, "Ese email no sirve, rellénalo bien.");
+    isAllValid = false;
+  } else {
+    clearError(emailError);
+  }
+
+  // Validar Password
+  if (passInput.value.length < 6) {
+    showError(passError, "Mínimo 6 caracteres para la clave.");
+    isAllValid = false;
+  } else {
+    clearError(passError);
+  }
+
+  // Validar Confirmación
+  if (confirmInput.value !== passInput.value || confirmInput.value === "") {
+    showError(confirmError, "Las contraseñas no coinciden.");
+    isAllValid = false;
+  } else {
+    clearError(confirmError);
+  }
+
+  return isAllValid;
+}
+
+// 4. Manejo del Submit
+form.addEventListener("submit", function (event) {
+  event.preventDefault(); // Evita que la página se recargue
+
+  result.innerHTML = ""; // Limpiar mensaje anterior
+
+  if (validateForm()) {
+    // Si todo está perfecto
+    result.innerHTML = "aprobado para unirte a gymshark my bro";
+    result.className = "ok";
+  } else {
+    // Si algo falló
+    result.innerHTML = "rellénalo bien para entrar al team";
+    result.className = "error";
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Counter Modificado</title>
+    <a href="index.html">contador</a>
+    <a href="numero2.html">Contador modificado</a>
+    <a href="numero3palaracha.html">Lista de tareas</a>
+    <a href="numero4bacanamente.html">Cuestionario rapido</a>
+    <a href="numero5.html">Registro a un gimnasio</a>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            transition: background-color 0.3s; /* Suaviza el cambio de color */
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #count {
+            margin: 20px;
+            min-height: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Panel de Control Caótico</h2>
+
+    <p id="count" style="font-size:40px;">0</p>
+
+    <button id="btnPlus" title="Aumentar Tamaño">+</button>
+    <button id="btnMinus" title="Reducir Tamaño">-</button>
+    <button id="btnReset" title="Color Aleatorio">Color</button>
+    <button id="btnSave" title="Invertir Colores">Invertir</button>
+    <button id="btnLoad" title="Lanzar Dado">Dado 🎲</button>
+
+    <script>
+        // Variables de estado
+        let fontSize = 40;
+        const display = document.getElementById("count");
+
+        // 1. Botón + (Aumentar tamaño de fuente)
+        document.getElementById("btnPlus").onclick = () => {
+            fontSize += 5;
+            display.style.fontSize = fontSize + "px";
+        };
+
+        // 2. Botón - (Reducir tamaño de fuente)
+        document.getElementById("btnMinus").onclick = () => {
+            if (fontSize > 10) {
+                fontSize -= 5;
+                display.style.fontSize = fontSize + "px";
+            }
+        };
+
+        // 3. Botón Reset (Cambiar color de fondo aleatorio)
+        document.getElementById("btnReset").onclick = () => {
+            const randomColor = Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.backgroundColor = "#" + randomColor;
+        };
+
+        // 4. Botón Save (Efecto Invertir Colores / Modo Negativo)
+        document.getElementById("btnSave").onclick = () => {
+            if (document.body.style.filter === "invert(1)") {
+                document.body.style.filter = "invert(0)";
+            } else {
+                document.body.style.filter = "invert(1)";
+            }
+        };
+
+        // 5. Botón Load (Generar número de dado aleatorio)
+        document.getElementById("btnLoad").onclick = () => {
+            const dado = Math.floor(Math.random() * 6) + 1;
+            display.innerText = "🎲 " + dado;
+        };
+    </script>
+
+</body>
+</html>
